@@ -11,10 +11,12 @@ $(function() {
     var Data = ncmb.DataStore(classname);
     var exist = true;
     var skip  = 0;
-    var limit = 10;
+    var limit = 3;
     var data = [];
     var a = $(".download");
     a.addClass("hide");
+    var status = $(".status");
+    status.removeClass("hide");
     Promise.resolve(0).then(function loop(skip) {
       return new Promise(function(resolve, reject) {
         Data.limit(limit)
@@ -32,6 +34,7 @@ $(function() {
               });
               data.push(new_item);
             });
+            status.text(data.length + "件取得しました");
             if (ary.length > 0) {
               skip += limit;
               return loop(skip);
@@ -45,6 +48,7 @@ $(function() {
         a.attr("download", classname + ".csv");
         a.attr("href",blobURL);
         a.removeClass("hide");
+        status.text("").addClass("hide");
       });
     });
   });
