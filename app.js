@@ -11,7 +11,7 @@ $(function() {
     var Data = ncmb.DataStore(classname);
     var exist = true;
     var skip  = 0;
-    var limit = 3;
+    var limit = 100;
     var data = [];
     var a = $(".download");
     a.addClass("hide");
