@@ -1,0 +1,21 @@
+{
+  "name": "export_csv",
+  "authors": [
+    "Atsushi Nakatsugawa <atsushi@moongift.jp>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ncmb": "~2.0.2"
+  }
+}
