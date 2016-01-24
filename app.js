@@ -13,6 +13,7 @@ $(function() {
     var skip  = 0;
     var limit = 100;
     var data = [];
+    var headers = {};
     var a = $(".download");
     a.addClass("hide");
     var status = $(".status");
@@ -21,15 +22,26 @@ $(function() {
       return new Promise(function(resolve, reject) {
         Data.limit(limit)
           .skip(skip)
+          .order('createDate', true)
           .fetchAll()
           .then(function(ary) {
             ary.forEach(function(item) {
               var new_item = {};
               $.each(item, function(i, v) {
-                if (i == "className")
+                if (i === "className" || i === "acl")
                   return true;
-                if (typeof v == "object" || typeof v == "function")
+                if (typeof v == "function")
                   return true;
+                headers[i] = true;
+                if (typeof v == "object" && v.__type == "GeoPoint") {
+                  new_item[i] = v.longitude + "," + v.latitude;
+                  return true;
+                }
+                if (typeof v == "object" && v.__type == "Date") {
+                  new_item[i] = v.iso;
+                  return true;
+                }
+                
                 new_item[i] = v;
               });
               data.push(new_item);
@@ -42,6 +54,13 @@ $(function() {
             return resolve(data);
           });
       }).then(function() {
+        data.forEach(function(rows, i) {
+          $.each(headers, function(name) {
+            if (typeof rows[name] === 'undefined')
+              rows[name] = "";
+          });
+          data[i] = rows;
+        });
         var blob = new Blob([new CSV(data, { header: true }).encode()]);
         var url = window.URL || window.webkitURL;
         var blobURL = url.createObjectURL(blob);
