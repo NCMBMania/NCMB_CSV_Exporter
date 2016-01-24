@@ -62,12 +62,7 @@ $(function() {
           data[i] = rows;
         });
         var blob = new Blob([new CSV(data, { header: true }).encode()]);
-        var url = window.URL || window.webkitURL;
-        var blobURL = url.createObjectURL(blob);
-        a.attr("download", classname + ".csv");
-        a.attr("href",blobURL);
-        a.removeClass("hide");
-        status.text("").addClass("hide");
+        download(blob, classname + ".csv", "text/csv");
       });
     });
   });
